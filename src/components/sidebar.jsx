@@ -46,7 +46,7 @@ export function Sidebar() {
 						className="flex items-center gap-2 cursor-pointer hover:opacity-80"
 						onClick={() => handleNavigation("/")}
 					>
-						<img src="/logo.png" alt="Logo" className="h-6 w-6" />
+						
 						<span className="font-bold">BeyondChats</span>
 					</div>
 				</div>
