@@ -1,14 +1,14 @@
-import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useContext } from "react";
-import { cn } from "@/lib/utils";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Home, MessageSquare, Users, Settings } from "lucide-react";
+import { Home, MessageSquare, Users, Settings, ChevronLeft, ChevronRight } from "lucide-react";
 import { SidebarContext } from "@/App";
+import { cn } from "@/lib/utils";
 
 export function Sidebar() {
 	const location = useLocation();
 	const navigate = useNavigate();
-	const { closeSidebar } = useContext(SidebarContext);
+	const { closeSidebar, isCollapsed, toggleCollapsed } = useContext(SidebarContext);
 
 	const routes = [
 		{
@@ -33,38 +33,62 @@ export function Sidebar() {
 		},
 	];
 
-	const handleNavigation = (href) => {
-		navigate(href);
-		closeSidebar();
-	};
-
 	return (
-		<div className="w-full h-full border-r bg-background">
+		<div className="relative h-full border-r bg-background">
 			<div className="space-y-4 py-4">
 				<div className="px-3 py-2">
-					<div
-						className="flex items-center gap-2 cursor-pointer hover:opacity-80"
-						onClick={() => handleNavigation("/")}
-					>
-						
-						<span className="font-bold">BeyondChats</span>
+					<div className="flex items-center justify-between">
+						<div
+							className="flex items-center gap-2 cursor-pointer"
+							onClick={() => navigate("/")}
+						>
+							{!isCollapsed && <span className="font-bold">BeyondChats</span>}
+						</div>
+						<Button
+							variant="ghost"
+							size="sm"
+							className="ml-auto"
+							onClick={toggleCollapsed}
+						>
+							{isCollapsed ? (
+								<ChevronRight className="h-5 w-5" />
+							) : (
+								<ChevronLeft className="h-5 w-5" />
+							)}
+						</Button>
 					</div>
 				</div>
 				<div className="space-y-1 px-3">
 					{routes.map((route) => (
-						<Button
+						<Link
 							key={route.href}
-							variant={
-								location.pathname === route.href
-									? "default"
-									: "ghost"
-							}
-							className="w-full justify-start gap-2"
-							onClick={() => handleNavigation(route.href)}
+							to={route.href}
+							onClick={() => {
+								if (window.innerWidth < 1024) {
+									closeSidebar();
+								}
+							}}
 						>
-							<route.icon className="h-5 w-5" />
-							<span>{route.label}</span>
-						</Button>
+							<Button
+								variant={
+									location.pathname === route.href ? "default" : "ghost"
+								}
+								className={cn(
+									"w-full",
+									isCollapsed
+										? "justify-center p-2"
+										: "justify-start gap-2"
+								)}
+							>
+								<route.icon
+									className={cn(
+										"transition-all duration-200",
+										isCollapsed ? "h-6 w-6" : "h-5 w-5"
+									)}
+								/>
+								{!isCollapsed && <span>{route.label}</span>}
+							</Button>
+						</Link>
 					))}
 				</div>
 			</div>
