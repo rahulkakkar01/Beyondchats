@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { ChatWindow } from '@/components/chatwindow';
 import { ChatInput } from '@/components/chatinput';
-import { Clock, MoreVertical, Search } from 'lucide-react';
+import { Clock, MoreVertical, Search, Menu } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
@@ -16,6 +16,7 @@ export function Inbox() {
   const [filteredConversations, setFilteredConversations] = useState(conversations);
   const [activeConversation, setActiveConversation] = useState(conversations[0]);
   const [messages, setMessages] = useState({});
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   // Initialize messages for each conversation
   useEffect(() => {
@@ -79,27 +80,34 @@ export function Inbox() {
   return (
     <div className="flex h-full">
       {/* Left sidebar with conversations */}
-      <div className="w-80 border-r flex flex-col bg-background z-10">
+      <div className={cn(
+        "w-full sm:w-80 border-r bg-background",
+        "fixed sm:relative inset-y-0 left-0 z-20",
+        "transform transition-transform duration-200 ease-in-out",
+        !isSidebarOpen && "-translate-x-full sm:translate-x-0"
+      )}>
         <div className="p-4 border-b">
           <div className="relative">
-            <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
-            <Input
-              placeholder="Filter conversations"
-              className="pl-8"
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+            <Input 
+              placeholder="Search conversations..." 
+              className="pl-9"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
           </div>
         </div>
-        <div className="flex-1 overflow-y-auto">
+        <div className="overflow-y-auto h-[calc(100vh-8rem)]">
           {filteredConversations.map((conv) => (
             <div
               key={conv.id}
-              onClick={() => setActiveConversation(conv)}
+              onClick={() => {
+                setActiveConversation(conv);
+                setIsSidebarOpen(false);
+              }}
               className={cn(
-                "p-4 hover-card",
-                "border-b cursor-pointer",
-                "bg-background hover:bg-muted/50",
+                "p-4 border-b cursor-pointer",
+                "hover:bg-muted/50",
                 activeConversation?.id === conv.id && "bg-muted"
               )}
             >
