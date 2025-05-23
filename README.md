@@ -90,9 +90,7 @@ beyondchats-ui/
 4. Push to the branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
 
-## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## Acknowledgments
 
@@ -102,4 +100,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - [DiceBear Avatars](https://www.dicebear.com)
 
 ---
-Built with ❤️ by [Your Name]
+Built with ❤️ by Rahul Kakkar
