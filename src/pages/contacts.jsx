@@ -1,66 +1,137 @@
-import { useState } from "react";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { Search, Plus, Mail, MoreVertical } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar"
+import { Button } from "@/components/ui/button"
+import { Plus, MessageSquare } from "lucide-react"
+import { useNavigate } from "react-router-dom"
+
+const contactsList = [
+	{
+		id: 1,
+		name: "Alex Thompson",
+		email: "alex.t@example.com",
+		avatarUrl: "https://api.dicebear.com/7.x/avataaars/svg?seed=Alex",
+		status: "online",
+	},
+	{
+		id: 2,
+		name: "Sarah Wilson",
+		email: "sarah.w@example.com",
+		avatarUrl: "https://api.dicebear.com/7.x/avataaars/svg?seed=Sarah",
+		status: "offline",
+	},
+	{
+		id: 3,
+		name: "Michael Chen",
+		email: "michael.c@example.com",
+		avatarUrl: "https://api.dicebear.com/7.x/avataaars/svg?seed=Michael",
+		status: "online",
+	},
+	{
+		id: 4,
+		name: "Emma Rodriguez",
+		email: "emma.r@example.com",
+		avatarUrl: "https://api.dicebear.com/7.x/avataaars/svg?seed=Emma",
+		status: "online",
+	},
+	{
+		id: 5,
+		name: "James Kumar",
+		email: "james.k@example.com",
+		avatarUrl: "https://api.dicebear.com/7.x/avataaars/svg?seed=James",
+		status: "offline",
+	},
+	{
+		id: 6,
+		name: "Sophia Patel",
+		email: "sophia.p@example.com",
+		avatarUrl: "https://api.dicebear.com/7.x/avataaars/svg?seed=Sophia",
+		status: "online",
+	},
+	{
+		id: 7,
+		name: "David Kim",
+		email: "david.k@example.com",
+		avatarUrl: "https://api.dicebear.com/7.x/avataaars/svg?seed=David",
+		status: "offline",
+	},
+	{
+		id: 8,
+		name: "Lisa Wang",
+		email: "lisa.w@example.com",
+		avatarUrl: "https://api.dicebear.com/7.x/avataaars/svg?seed=Lisa",
+		status: "online",
+	},
+	{
+		id: 9,
+		name: "Carlos Martinez",
+		email: "carlos.m@example.com",
+		avatarUrl: "https://api.dicebear.com/7.x/avataaars/svg?seed=Carlos",
+		status: "offline",
+	},
+	{
+		id: 10,
+		name: "Aisha Singh",
+		email: "aisha.s@example.com",
+		avatarUrl: "https://api.dicebear.com/7.x/avataaars/svg?seed=Aisha",
+		status: "online",
+	},
+]
 
 export function Contacts() {
-  const [searchQuery, setSearchQuery] = useState("");
+	const navigate = useNavigate()
 
-  const contacts = [
-    { id: 1, name: "John Doe", email: "john@example.com" },
-    { id: 2, name: "Jane Smith", email: "jane@example.com" },
-    // Add more contacts as needed
-  ];
+	const startChat = (contactId) => {
+		navigate(`/inbox?contact=${contactId}`)
+	}
 
-  const filteredContacts = contacts.filter(contact =>
-    contact.name.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+	return (
+		<div className="p-6 space-y-6">
+			<div className="flex items-center justify-between">
+				<h1 className="text-2xl font-semibold">Contacts</h1>
+				<Button>
+					<Plus className="h-4 w-4 mr-2" />
+					Add Contact
+				</Button>
+			</div>
 
-  return (
-    <div className="space-y-4 p-4">
-      <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
-        <h1 className="text-2xl font-bold">Contacts</h1>
-        <Button>
-          <Plus className="h-4 w-4 mr-2" />
-          Add Contact
-        </Button>
-      </div>
-
-      <div className="relative">
-        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-        <Input 
-          placeholder="Search contacts..." 
-          className="pl-9"
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-        />
-      </div>
-
-      <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
-        {filteredContacts.map((contact) => (
-          <div 
-            key={contact.id}
-            className="p-4 rounded-lg border bg-card hover:bg-accent/50 transition-colors"
-          >
-            <div className="flex items-start justify-between">
-              <div>
-                <h3 className="font-medium">{contact.name}</h3>
-                <p className="text-sm text-muted-foreground">{contact.email}</p>
-              </div>
-              <Button variant="ghost" size="icon">
-                <MoreVertical className="h-4 w-4" />
-              </Button>
-            </div>
-            <div className="mt-4 flex gap-2">
-              <Button variant="secondary" size="sm" className="w-full">
-                <Mail className="h-4 w-4 mr-2" />
-                Message
-              </Button>
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
+			<div className="grid gap-4">
+				{contactsList.map((contact) => (
+					<div
+						key={contact.id}
+						className="flex items-center justify-between p-4 border rounded-lg bg-background"
+					>
+						<div className="flex items-center gap-4">
+							<Avatar className="h-10 w-10">
+								<AvatarImage src={contact.avatarUrl} />
+								<AvatarFallback>
+									{contact.name.split(" ").map((n) => n[0]).join("")}
+								</AvatarFallback>
+							</Avatar>
+							<div>
+								<h3 className="font-medium">{contact.name}</h3>
+								<p className="text-sm text-muted-foreground">
+									{contact.email}
+								</p>
+							</div>
+						</div>
+						<div className="flex items-center gap-2">
+							<div
+								className={`w-2 h-2 rounded-full ${
+									contact.status === "online"
+										? "bg-green-500"
+										: "bg-gray-300"
+								}`}
+							/>
+							<Button
+								variant="ghost"
+								size="icon"
+								onClick={() => startChat(contact.id)}
+							>
+								<MessageSquare className="h-4 w-4" />
+							</Button>
+						</div>
+					</div>
+				))}
+			</div>
+		</div>
+	)
 }
