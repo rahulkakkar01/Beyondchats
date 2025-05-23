@@ -173,6 +173,30 @@
   }
 }
 
+@layer components {
+  .sidebar {
+    @apply h-full transition-all duration-300 ease-in-out;
+  }
+
+  .sidebar .button-icon {
+    @apply h-6 w-6 transition-all duration-200;
+  }
+
+  .sidebar .nav-button {
+    @apply py-3 transition-all duration-200;
+  }
+
+  @media (max-width: 1024px) {
+    .sidebar {
+      @apply fixed left-0 top-0 bottom-0 z-50 -translate-x-full w-72; /* Increased width */
+    }
+
+    .sidebar.open {
+      @apply translate-x-0;
+    }
+  }
+}
+
 /* Add responsive breakpoints */
 @media (max-width: 640px) {
   .sidebar {
