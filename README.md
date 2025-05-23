@@ -4,7 +4,7 @@ BeyondChats is a modern web-based chat application built with React, offering a 
 
 ## Live Demo
 
-🌐 [Visit BeyondChats](https://beyondchats.vercel.app)
+🌐 [Visit BeyondChats](https://beyondchats-cyan.vercel.app/)
 
 ## Features
 
